@@ -6,11 +6,11 @@
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 08:35:38 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/06 17:23:09 by no-conne         ###   ########.fr       */
+/*   Updated: 2019/06/11 13:03:30 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 #include "get_next_line.h"
 
 int		get_next_line(const int fd, char **line)

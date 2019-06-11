@@ -6,14 +6,14 @@
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 08:36:00 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/06 14:28:18 by no-conne         ###   ########.fr       */
+/*   Updated: 2019/06/11 13:03:28 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include "libft.h"
+#include <libft.h>
 #include <stdlib.h>
 #include <unistd.h>
 
