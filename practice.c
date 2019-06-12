@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   practice.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/12 10:43:53 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/12 11:06:17 by no-conne         ###   ########.fr       */
+/*   Created: 2019/06/12 08:34:59 by no-conne          #+#    #+#             */
+/*   Updated: 2019/06/12 10:52:28 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
 
-#include <stdlib.h>
-#include "./libft/includes/libft.h"
-#include <unistd.h>
-#include <fcntl.h>
+int main()
+{
+	int fd;
+	char *path;
+	char buf[BUFF_SIZE + 1];
 
-#define BUFF_SIZE 32
+	/*write*/
+	path = "/goinfre/no-conne/Desktop/get_next_line/prac.txt";
+	fd = open(path, O_CREAT | O_WRONLY, 0600);
+	write(fd, "Hello World!\n", 13);
+	close(fd);
+	
+	/*read*/
+	fd = open(path, O_RDONLY);
+	read(fd, buf, 13);
+	buf[13] = '\0';
+	close(fd);
 
-int		get_next_line(int fd, char **line);
-
-#endif
+	ft_putstr(buf);
+	return (0);
+}
