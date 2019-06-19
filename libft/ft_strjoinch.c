@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   practice.c                                         :+:      :+:    :+:   */
+/*   ft_strjoinch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/12 08:34:59 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/19 15:05:27 by no-conne         ###   ########.fr       */
+/*   Created: 2019/06/19 15:58:28 by no-conne          #+#    #+#             */
+/*   Updated: 2019/06/19 16:03:26 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "./includes/libft.h"
 
-int main()
+char	*ft_strjoinch(char const *s1, char c)
 {
-	int fd;
-	char *path;
-	char buf[BUFF_SIZE + 1];
+	char	*new_str;
+	size_t	i;
+	size_t	s1_len;
 
-	/*write*/
-	path = "/goinfre/no-conne/Desktop/get_next_line/prac.txt";
-	fd = open(path, O_CREAT | O_WRONLY, 0600);
-	write(fd, "Hello World!\n", 13);
-	close(fd);
-	
-	/*read*/
-	fd = open(path, O_RDONLY);
-	read(fd, buf, 13);
-	buf[13] = '\0';
-	close(fd);
-
-	ft_putstr(buf);
-	return (0);
+	if (!s1 || !c)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	new_str = ft_strnew(s1_len + 1);
+	if (!new_str)
+		return (NULL);
+	i = -1;
+	while (++i < s1_len)
+		*(new_str + i) = *(s1 + i);
+	*(new_str + i) = c;
+	return (new_str);
 }

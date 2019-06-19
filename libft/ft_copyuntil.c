@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   practice.c                                         :+:      :+:    :+:   */
+/*   ft_copyuntil.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/12 08:34:59 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/19 15:05:27 by no-conne         ###   ########.fr       */
+/*   Created: 2019/06/19 15:44:43 by no-conne          #+#    #+#             */
+/*   Updated: 2019/06/19 15:57:56 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "./includes/libft.h"
 
-int main()
+int		ft_copyuntil(char **dst, char *src, char c)
 {
-	int fd;
-	char *path;
-	char buf[BUFF_SIZE + 1];
+	int i;
+	int count;
+	int pos;
 
-	/*write*/
-	path = "/goinfre/no-conne/Desktop/get_next_line/prac.txt";
-	fd = open(path, O_CREAT | O_WRONLY, 0600);
-	write(fd, "Hello World!\n", 13);
-	close(fd);
-	
-	/*read*/
-	fd = open(path, O_RDONLY);
-	read(fd, buf, 13);
-	buf[13] = '\0';
-	close(fd);
-
-	ft_putstr(buf);
-	return (0);
+	i = -1;
+	count = 0;
+	while (src[++i])
+		if (src[i] == c)
+			break;
+	pos = i;
+	if (!(*dst = ft_strnew(i)))
+		return (0);
+	while (src[count] && count < i)
+	{
+		if (!(*dst = ft_strjoinch(*dst, src[count])))
+			return (0);
+		count++;
+	}
+	return (pos);
 }

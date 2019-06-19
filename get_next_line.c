@@ -6,13 +6,13 @@
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 08:35:38 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/12 13:28:04 by no-conne         ###   ########.fr       */
+/*   Updated: 2019/06/13 10:56:56 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		get_next_line(const int fd, char **line)
+/*int		get_next_line(const int fd, char **line)
 {
 	char	*dump;
 	int 	i;
@@ -26,7 +26,8 @@ int		get_next_line(const int fd, char **line)
 			i++;
 		else
 			i = -1;
-		dump = NULL;
+		ft_putstr(dump);
+		ft_strclr(dump);
 	}
 	i = 0;
 	while (dump[i] != '\n')
@@ -34,7 +35,7 @@ int		get_next_line(const int fd, char **line)
 	dump = ft_strsub(dump, 0, i);
 	ft_putstr(dump);
 	return (0);
-}
+}*/
 
 int main()
 {
