@@ -6,7 +6,7 @@
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 08:34:59 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/20 16:49:07 by no-conne         ###   ########.fr       */
+/*   Updated: 2019/06/25 08:58:28 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,5 @@ int main()
 	close(fd);
 
 	ft_putstr(buf);
-	fd = open(path, O_RDONLY);
-	get_next_line(fd, line);
-	ft_putstr(*line);
 	return (0);
 }

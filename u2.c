@@ -6,7 +6,7 @@
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 15:05:47 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/20 16:49:09 by no-conne         ###   ########.fr       */
+/*   Updated: 2019/06/25 11:43:32 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,20 @@ int				get_next_line(const int fd, char **line)
 		: ft_strclr(cur->content);
 	return (1);
 }
+
+int	main()
+{
+	int fd;
+	char *path;
+	char **line;
+	int i = 0;
+	path = "/goinfre/no-conne/Desktop/get_next_line/prac.txt";
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, line);
+	while (line[0][i])
+	{
+		ft_putchar(line[0][i]);
+		i++;
+	}
+}
+
