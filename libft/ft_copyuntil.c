@@ -6,7 +6,7 @@
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 15:44:43 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/19 15:57:56 by no-conne         ###   ########.fr       */
+/*   Updated: 2019/06/27 13:47:54 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_copyuntil(char **dst, char *src, char c)
 	count = 0;
 	while (src[++i])
 		if (src[i] == c)
-			break;
+			break ;
 	pos = i;
 	if (!(*dst = ft_strnew(i)))
 		return (0);
