@@ -5,65 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/01 09:12:51 by no-conne          #+#    #+#             */
-/*   Updated: 2019/07/01 11:45:11 by no-conne         ###   ########.fr       */
+/*   Created: 2019/06/06 08:35:38 by no-conne          #+#    #+#             */
+/*   Updated: 2019/07/01 15:07:37 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*add_to_str(char *str, char *buff)
+int		add_to_str(int fd, char *str)
 {
-	char	*tmp;
+	char	*placeholder;
+	char	temporary[BUFF_SIZE + 1];
+	ssize_t	size;
 
-	tmp = ft_strjoin(str, buff);
-	free(str);
-	return (tmp);
+	size = read(fd, temporary, BUFF_SIZE);
+	if (size < 1)
+		return (size);
+	temporary[size] = '\0';
+	ft_strjoin(str[fd], temporary);
+	return (1);
 }
 
-char	*ft_putline(char **line, char *str)
+int		end(char *str, char c)
 {
-	int		len;
-	char	*tmp;
+	int i;
 
-	len = 0;
-	while (str[len] != '\n' && str[len] != '\0')
-		len++;
-	*line = ft_strsub(str, 0, len);
-	if (ft_strcmp(*line, str) == 0)
-		return (NULL);
-	else
+	i = 0;
+	while (str[i])
 	{
-		tmp = ft_strsub(str, len + 1, ft_strlen(str + len + 1));
-		free(str);
+		if (str[i] == c)
+			return (i);
+		i++;
 	}
-	return (tmp);
+	return (-1);
 }
 
-int		get_next_line(int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	int			ret;
-	char		buff[BUFF_SIZE + 1];
 	static char	*str[1024];
+	int			error_code;
 
-	ret = 0;
-	if (!(line) || read(fd, buff, 0) == -1 || fd < 0)
-		return (-1);
 	if (!(str[fd]))
 		str[fd] = ft_strnew(0);
-	if (!(ft_strchr(str[fd], '\n')))
+	while(ft_strchr(str[fd], '\n') == NULL)
 	{
-		while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
-		{
-			buff[ret] = '\0';
-			str[fd] = add_to_str(str[fd], buff);
-			if (ft_strchr(str[fd], '\n'))
-				break ;
-		}
+		error_code = add_to_str(fd, str[fd]);
+		if (error_code < 1)
+			return (error_code);
 	}
-	if (ret == 0 && !(ft_strlen(str[fd])))
-		return (0);
-	str[fd] = ft_putline(line, str[fd]);
+	*line = ft_strsub(str[fd], 0, end(str[fd], '\n'));
 	return (1);
 }
 
