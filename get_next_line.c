@@ -5,91 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 08:35:38 by no-conne          #+#    #+#             */
-/*   Updated: 2019/06/27 14:19:27 by no-conne         ###   ########.fr       */
+/*   Created: 2019/07/01 09:12:51 by no-conne          #+#    #+#             */
+/*   Updated: 2019/07/01 09:42:46 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*join(char *s1, char *s2)
+char	*add_to_str(char *str, char *buff)
 {
-	size_t	size;
-	char	*newstring;
+	char	*tmp;
 
-	size = ft_strlen(s1) + ft_strlen(s2);
-	newstring = (char *)malloc(sizeof(char) * size + 1);
-	ft_strcpy(newstring, s1);
-	ft_strcat(newstring, s2);
-	newstring[size] = '\0';
-	return (newstring);
+	tmp = ft_strjoin(str, buff);
+	free(str);
+	return (tmp);
 }
 
-int		read_chunk(int fd, char **buffer)
+char	*ft_putline(char **line, char *str)
 {
-	char	*placeholder;
-	char	temporary[BUFF_SIZE + 1];
-	ssize_t	size;
+	int		len;
+	char	*tmp;
 
-	size = read(fd, temporary, BUFF_SIZE);
-	if (size < 1)
-		return (size);
-	temporary[size] = '\0';
-	placeholder = join(*buffer, temporary);
-	free(*buffer);
-	*buffer = ft_strdup(placeholder);
+	len = 0;
+	while (str[len] != '\n' && str[len] != '\0')
+		len++;
+	*line = ft_strsub(str, 0, len);
+	if (ft_strcmp(*line, str) == 0)
+		return (NULL);
+	else
+	{
+		tmp = ft_strsub(str, len + 1, ft_strlen(str + len + 1));
+		free(str);
+	}
+	return (tmp);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	int			ret;
+	char		buff[BUFF_SIZE + 1];
+	static char	*str[1024];
+
+	ret = 0;
+	if (!(line) || read(fd, buff, 0) == -1 || fd < 0)
+		return (-1);
+	if (!(str[fd]))
+		str[fd] = ft_strnew(0);
+	if (!(ft_strchr(str[fd], '\n')))
+	{
+		while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
+		{
+			buff[ret] = '\0';
+			str[fd] = add_to_str(str[fd], buff);
+			if (ft_strchr(str[fd], '\n'))
+				break ;
+		}
+	}
+	if (ret == 0 && !(ft_strlen(str[fd])))
+		return (0);
+	str[fd] = ft_putline(line, str[fd]);
 	return (1);
-}
-
-int		from_where(char *string, char c)
-{
-	int	i;
-
-	i = 0;
-	while (string[i])
-	{
-		if (string[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int		get_next_line(const int fd, char **line)
-{
-	static char	*static_buffer;
-	int			error_code;
-
-	static_buffer = NULL;
-	if (static_buffer == NULL)
-		static_buffer = (char *)malloc(sizeof(char));
-	while (ft_strchr(static_buffer, '\n') == NULL)
-	{
-		error_code = read_chunk(fd, &static_buffer);
-		if (error_code < 1)
-			return (error_code);
-	}
-	*line = ft_strsub(static_buffer, 0, from_where(static_buffer, '\n'));
-	static_buffer = ft_strchr(static_buffer, '\n');
-	static_buffer++;
-	return (1);
-}
-
-int		main(int argc, char **argv)
-{
-	int	fd;
-	char *buffer;
-
-	buffer = (char *)malloc(sizeof(char) * 1024);
-	fd = open(argv[1], O_RDONLY);
-	get_next_line(fd, &buffer);
-	ft_putstr(buffer);
-	ft_putchar('\n');
-	get_next_line(fd, &buffer);
-	ft_putstr(buffer);
-	while (get_next_line(fd, &buffer) > 0)
-	{
-		ft_putchar('\n');
-		ft_putstr(buffer);
-	}
 }
