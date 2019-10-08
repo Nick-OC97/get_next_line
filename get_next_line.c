@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: no-conne <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: no-conne <no-conne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/01 09:12:51 by no-conne          #+#    #+#             */
-/*   Updated: 2019/07/01 11:45:11 by no-conne         ###   ########.fr       */
+/*   Created: 2019/10/08 17:30:06 by no-conne          #+#    #+#             */
+/*   Updated: 2019/10/08 17:30:50 by no-conne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "./get_next_line.h"
 
-char	*add_to_str(char *str, char *buff)
+static char		*add(char *str, char *buff)
 {
 	char	*tmp;
 
@@ -21,7 +21,7 @@ char	*add_to_str(char *str, char *buff)
 	return (tmp);
 }
 
-char	*ft_putline(char **line, char *str)
+static char		*setline(char **line, char *str)
 {
 	int		len;
 	char	*tmp;
@@ -40,48 +40,29 @@ char	*ft_putline(char **line, char *str)
 	return (tmp);
 }
 
-int		get_next_line(int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
-	int			ret;
-	char		buff[BUFF_SIZE + 1];
 	static char	*str[1024];
+	char		buff[BUFF_SIZE + 1];
+	int			size;
 
-	ret = 0;
-	if (!(line) || read(fd, buff, 0) == -1 || fd < 0)
+	size = 0;
+	if (!(line) || (read(fd, buff, 0) < 0) || (fd < 0))
 		return (-1);
-	if (!(str[fd]))
+	if ((str[fd]) == NULL)
 		str[fd] = ft_strnew(0);
 	if (!(ft_strchr(str[fd], '\n')))
 	{
-		while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
+		while ((size = read(fd, buff, BUFF_SIZE)) > 0)
 		{
-			buff[ret] = '\0';
-			str[fd] = add_to_str(str[fd], buff);
+			buff[size] = '\0';
+			str[fd] = add(str[fd], buff);
 			if (ft_strchr(str[fd], '\n'))
 				break ;
 		}
 	}
-	if (ret == 0 && !(ft_strlen(str[fd])))
+	if (size == 0 && !(ft_strlen(str[fd])))
 		return (0);
-	str[fd] = ft_putline(line, str[fd]);
+	str[fd] = setline(line, str[fd]);
 	return (1);
-}
-
-int		main(int argc, char **argv)
-{
-	int	fd;
-	char *buffer;
-
-	buffer = (char *)malloc(sizeof(char) * 1024);
-	fd = open(argv[1], O_RDONLY);
-	get_next_line(fd, &buffer);
-	ft_putstr(buffer);
-	ft_putchar('\n');
-	get_next_line(fd, &buffer);
-	ft_putstr(buffer);
-	while (get_next_line(fd, &buffer) > 0)
-	{
-		ft_putchar('\n');
-		ft_putstr(buffer);
-	}
 }
